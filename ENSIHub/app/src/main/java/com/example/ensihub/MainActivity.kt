@@ -12,33 +12,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.ensihub.ui.theme.ENSIHubTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ENSIHubTheme {
+                val navController = rememberNavController()
+
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    AuthenticationScreen()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavHost(navController, startDestination = "login") {
+                        composable("login") {
+                            Greeting()
+                        }
+                        composable("signup") {
+                            SignUpScreen(navController)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    // Your greeting UI code here
-}
-
-@Composable
-fun AuthenticationScreen() {
-    Greeting("Android")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AuthenticationScreenPreview() {
-    ENSIHubTheme {
-        AuthenticationScreen()
     }
 }
